@@ -12,4 +12,4 @@ RUN pip3 install -r requirements.txt --no-cache-dir
 
 EXPOSE 8000
 
-CMD /home/dbs/.local/bin/uvicorn dbs_assignment.__main__:app --reload --host 0.0.0.0
+CMD python create_db.py; /home/dbs/.local/bin/uvicorn dbs_assignment.__main__:app --reload --host 0.0.0.0

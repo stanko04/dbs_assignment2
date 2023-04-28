@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from dbs_assignment.endpoints import users, cards, publications, authors, categories, instances
+from dbs_assignment.endpoints import users, cards, publications, authors, categories, instances, reservations, rentals
 
 router = APIRouter()
 
@@ -10,3 +10,5 @@ router.include_router(publications.router, tags=["publications"])
 router.include_router(authors.router, tags=["authors"])
 router.include_router(categories.router, tags=["categories"])
 router.include_router(instances.router, tags=['instances'])
+router.include_router(reservations.router, tags=['reservations'])
+router.include_router(rentals.router, tags=["rentals"])

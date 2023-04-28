@@ -79,9 +79,22 @@ class Instance(Base):
     created_at = Column(DateTime, default=datetime.datetime.utcnow())
     updated_at = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
 
+class Reservation(Base):
+    __tablename__ = 'reservations'
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, unique=True, nullable=False, autoincrement=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
+    publication_id = Column(UUID(as_uuid=True), ForeignKey('publications.id'), nullable=False)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow())
 
-
-
+class Rental(Base):
+    __tablename__ = 'rentals'
+    id = Column(UUID(as_uuid=True), primary_key=True, index=True, unique=True, nullable=False, autoincrement=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
+    publication_instance_id = Column(UUID(as_uuid=True), ForeignKey('instances.id'), nullable=False)
+    duration = Column(Integer, nullable=False)
+    start_date = Column(Date, nullable=False)
+    end_date = Column(Date, nullable=False)
+    created_at = Column(DateTime, default=datetime.datetime.utcnow())
 
 
 
