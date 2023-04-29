@@ -16,6 +16,7 @@ class InstanceType(str, Enum):
 class InstanceStatus(str, Enum):
     available = "available"
     reserved = "reserved"
+    unavailable = "unavailable"
 
 
 class Instance(BaseModel):

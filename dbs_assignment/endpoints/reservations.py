@@ -32,9 +32,12 @@ def create_reservation(reservation: Reservation):
     if reservation.user_id == "" or reservation.publication_id == "":
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
 
+    user = db.query(models.User).filter(models.User.id == reservation.user_id).first()
+
     new_item = models.Reservation(
         id = reservation.id,
         user_id = reservation.user_id,
+        user = user,
         publication_id = reservation.publication_id
     )
 

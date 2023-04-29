@@ -15,6 +15,8 @@ class User(Base):
     email = Column(EmailType, nullable=False, unique=True)
     birth_date = Column(Date, nullable=False)
     personal_identificator = Column(String, nullable=False)
+    reservations = relationship('Reservation', back_populates='user')
+    rentals = relationship('Rental', back_populates='user')
     created_at = Column(DateTime, default=datetime.datetime.utcnow())
     updated_at = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
 
@@ -74,7 +76,7 @@ class Instance(Base):
     type = Column(Enum('physical', 'audiobook', 'ebook', name='type'), nullable=False)
     publisher = Column(String(255), nullable=False)
     year = Column(Integer, nullable=False)
-    status = Column(Enum('available', 'reserved', name='status'), nullable=False)
+    status = Column(Enum('available', 'reserved', 'unavailable', name='status'), nullable=False)
     publication_id = Column(UUID(as_uuid=True), ForeignKey('publications.id'), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow())
     updated_at = Column(DateTime, default=datetime.datetime.utcnow(), onupdate=datetime.datetime.utcnow())
@@ -85,6 +87,7 @@ class Reservation(Base):
     user_id = Column(UUID(as_uuid=True), ForeignKey('users.id'), nullable=False)
     publication_id = Column(UUID(as_uuid=True), ForeignKey('publications.id'), nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow())
+    user = relationship('User', back_populates='reservations')
 
 class Rental(Base):
     __tablename__ = 'rentals'
@@ -95,6 +98,7 @@ class Rental(Base):
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow())
+    user = relationship('User', back_populates='rentals')
 
 
 
