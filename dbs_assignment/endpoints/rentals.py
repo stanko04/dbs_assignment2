@@ -17,7 +17,6 @@ class Rental(BaseModel):
     duration: int = None
     start_date: date = None
     end_date: date = None
-    status: str = None
     created_at: datetime = datetime.utcnow()
 
     class Config:
@@ -30,6 +29,7 @@ class RentalResponse(BaseModel):
     duration: int = None
     start_date: date = None
     end_date: date = None
+    status: str = None
     created_at: datetime = datetime.utcnow()
 
     class Config:
@@ -72,18 +72,20 @@ def create_rental(rental: Rental):
                 reservation_to_delete = db.query(models.Reservation).filter(models.Reservation.publication_id == rental.publication_id,
                                                                             models.Reservation.user_id == reservation).first()
                 if (reservation == rental.user_id and pom <= len(available_publication_instances) and reservation_to_delete):
-                    db.delete(reservation_to_delete)
-                    db.commit()
+                    # db.delete(reservation_to_delete)
+                    # db.commit()
                     can_create_rental = True
                 pom = pom + 1
         if len(reservations_users) < len(available_publication_instances):
             for reservation in reservations_users:
                 reservation_to_delete = db.query(models.Reservation).filter(models.Reservation.publication_id == rental.publication_id,
                                                                             models.Reservation.user_id == reservation).first()
-                if (reservation == rental.user_id and reservation_to_delete):
-                    db.delete(reservation_to_delete)
-                    db.commit()
+                # if (reservation == rental.user_id and reservation_to_delete):
+                    # db.delete(reservation_to_delete)
+                    # db.commit()
             can_create_rental = True
+    if len(reservations_users) == 0:
+        can_create_rental = True
 
 
     if can_create_rental == False:
