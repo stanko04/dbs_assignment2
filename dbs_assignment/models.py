@@ -97,6 +97,7 @@ class Rental(Base):
     duration = Column(Integer, nullable=False)
     start_date = Column(Date, nullable=False)
     end_date = Column(Date, nullable=False)
+    status = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.datetime.utcnow())
     user = relationship('User', back_populates='rentals')
 
