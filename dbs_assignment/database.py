@@ -15,11 +15,13 @@ database_password = os.getenv("DATABASE_PASSWORD")
 # engine = create_engine("postgresql://postgres:spartaktrnava38@host.docker.internal:5432/dbs", echo=True, pool_pre_ping=True)
 # engine = create_engine("postgresql://postgres:spartaktrnava38@localhost:5432/dbs", echo=True, pool_pre_ping=True)
 
-
-# engine = create_engine(f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}", echo=True, pool_pre_ping=True)
 # engine = create_engine(f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_SERVER}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}", echo=True, pool_pre_ping=True)
 
-engine = create_engine(f"postgresql://{database_user}:{database_password}@{database_host}:8000/{database_name}", echo=True, pool_pre_ping=True)
+# engine = create_engine(f"postgresql://{database_user}:{database_password}@{database_host}:8000/{database_name}", echo=True, pool_pre_ping=True)
+
+
+engine = create_engine(f"postgresql://{database_user}:{database_password}@{database_host}:{database_port}/{database_name}", echo=True, pool_pre_ping=True)
+
 
 
 if not database_exists(engine.url):
