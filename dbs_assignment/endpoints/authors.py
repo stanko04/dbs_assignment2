@@ -36,6 +36,10 @@ def create_author(author: Author):
     if db.query(models.Author).filter(models.Author.name == author.name, models.Author.surname == author.surname).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Author with this name and surname already exits")
 
+    if db.query(models.Author.id).filter(models.Author.id == author.id).first():
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Author with this name and surname already exits")
+
+
     if author.id is None:
         author.id = uuid.uuid4()
 
