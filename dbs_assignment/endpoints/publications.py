@@ -78,8 +78,6 @@ def get_publication(publication_id: str):
     if not db.query(models.Publication).filter(models.Publication.id == publication_id).first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Publication not found")
 
-    publication = db.query(models.Publication).filter(models.Publication.id == publication_id).first()
-
     publication_id = db.query(models.Publication.id).filter(models.Publication.id == publication_id).scalar()
     publication_title = db.query(models.Publication.title).filter(models.Publication.id == publication_id).scalar()
 

@@ -56,7 +56,8 @@ def create_instance(instance: Instance):
         type = instance.type,
         publisher = instance.publisher,
         year = instance.year,
-        status = instance.status,
+        # status = instance.status,
+        status = "available",
         publication_id = instance.publication_id,
         created_at = instance.created_at,
         updated_at = instance.updated_at

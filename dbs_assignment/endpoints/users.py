@@ -64,12 +64,8 @@ def add_user(user: User):
     )
 
     db.add(new_item)
-    # try:
     db.commit()
-    # except Exception as ex:
     db.rollback()
-
-    del new_item.reservations
 
     return new_item
 
