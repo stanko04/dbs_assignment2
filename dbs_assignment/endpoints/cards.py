@@ -80,7 +80,7 @@ def update_card(card_id: str, card: Card):
         if not db.query(models.User).filter(models.User.id == card.user_id).first():
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="User not found")
     if not card.status is None:
-        if card.status != "active" or card.status != "inactive" or card.status != "expired":
+        if not card.status == "active" or card.status == "inactive" or card.status == "expired":
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
 
     card_to_update = db.query(models.Card).filter(models.Card.id == card_id).first()
