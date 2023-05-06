@@ -56,8 +56,8 @@ def create_rental(rental: Rental):
     result_publication_instances = db.execute(publication_instances)
     available_publication_instances = result_publication_instances.scalars().all()
 
-    if len(available_publication_instances) == 0:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
+    # if len(available_publication_instances) == 0:
+    #     raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
 
     get_reservations = db.query(models.Reservation.user_id).filter(models.Reservation.publication_id == rental.publication_id).order_by(models.Reservation.created_at.asc())
     result_reservations = db.execute(get_reservations)
