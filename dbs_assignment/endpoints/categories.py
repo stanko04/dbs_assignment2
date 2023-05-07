@@ -38,6 +38,9 @@ def create_category(category: Category):
     if db.query(models.Category).filter(models.Category.name == category.name).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="This category already exits")
 
+    if category.name.isnumeric():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
+
     if category.id is None:
         category.id = uuid.uuid4()
 
@@ -71,6 +74,9 @@ def update_category(category_id: str, category: Category):
     if db.query(models.Category).filter(models.Category.name == category.name).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="This category already exits")
 
+    if category.name.isnumeric():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
+
 
     category_to_update = db.query(models.Category).filter(models.Category.id == category_id).first()
 
@@ -81,7 +87,7 @@ def update_category(category_id: str, category: Category):
     return category_to_update
 
 @router.delete("/categories/{category_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_author(category_id: str):
+def delete_category(category_id: str):
     if not db.query(models.Category).filter(models.Category.id == category_id).first():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Category not found")
 
