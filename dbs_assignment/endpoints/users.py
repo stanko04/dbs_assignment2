@@ -1,6 +1,7 @@
 import datetime
 import uuid
-from datetime import datetime
+import datetime
+
 
 from fastapi import APIRouter, status, HTTPException
 from pydantic import BaseModel
@@ -14,10 +15,11 @@ class User(BaseModel):
     name: str = None
     surname: str = None
     email: str = None
-    birth_date: datetime.date = None
+    # birth_date: datetime.date = None
+    birth_date: str = None
     personal_identificator: str = None
-    created_at: datetime = datetime.utcnow()
-    updated_at: datetime = datetime.utcnow()
+    created_at: datetime.datetime = datetime.datetime.utcnow()
+    updated_at: datetime.datetime = datetime.datetime.utcnow()
 
     class Config:
         orm_mode = True
@@ -27,10 +29,11 @@ class ResponseUser(BaseModel):
     name: str = None
     surname: str = None
     email: str = None
-    birth_date: datetime.date = None
+    # birth_date: datetime.date = None
+    birth_date: str = None
     personal_identificator: str = None
-    created_at: datetime = datetime.utcnow()
-    updated_at: datetime = datetime.utcnow()
+    created_at: datetime.datetime = datetime.datetime.utcnow()
+    updated_at: datetime.datetime = datetime.datetime.utcnow()
     reservations: list = None
     rentals: list = None
 
@@ -53,10 +56,12 @@ def add_user(user: User):
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already taken")
 
     # test
-    format = "%d-%m-%Y"
-    if not datetime.strptime(user.birth_date, format):
+    from datetime import datetime
+    format = "%Y-%m-%d"
+    try:
+        res = bool(datetime.strptime(user.birth_date, format))
+    except ValueError:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
-
 
 
     new_item = models.User(
@@ -66,8 +71,8 @@ def add_user(user: User):
         email = user.email,
         birth_date = user.birth_date,
         personal_identificator = user.personal_identificator,
-        created_at = datetime.datetime.utcnow(),
-        updated_at = datetime.datetime.utcnow()
+        created_at = datetime.utcnow(),
+        updated_at = datetime.utcnow()
     )
 
     db.add(new_item)
