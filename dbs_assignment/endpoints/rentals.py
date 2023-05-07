@@ -98,6 +98,11 @@ def create_rental(rental: Rental):
 
     user = db.query(models.User).filter(models.User.id == rental.user_id).first()
 
+    # test
+    instance_for_change = db.query(models.Instance).filter(models.Instance.id == first_available_instance_id).first()
+    instance_for_change.status = "unavailable"
+
+
     new_item = models.Rental(
         id = rental.id,
         user_id = rental.user_id,
