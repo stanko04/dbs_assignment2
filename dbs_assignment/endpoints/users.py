@@ -1,5 +1,6 @@
 import datetime
 import uuid
+from datetime import datetime
 
 from fastapi import APIRouter, status, HTTPException
 from pydantic import BaseModel
@@ -15,8 +16,8 @@ class User(BaseModel):
     email: str = None
     birth_date: datetime.date = None
     personal_identificator: str = None
-    created_at: datetime.datetime = datetime.datetime.utcnow()
-    updated_at: datetime.datetime = datetime.datetime.utcnow()
+    created_at: datetime = datetime.utcnow()
+    updated_at: datetime = datetime.utcnow()
 
     class Config:
         orm_mode = True
@@ -28,8 +29,8 @@ class ResponseUser(BaseModel):
     email: str = None
     birth_date: datetime.date = None
     personal_identificator: str = None
-    created_at: datetime.datetime = datetime.datetime.utcnow()
-    updated_at: datetime.datetime = datetime.datetime.utcnow()
+    created_at: datetime = datetime.utcnow()
+    updated_at: datetime = datetime.utcnow()
     reservations: list = None
     rentals: list = None
 
@@ -50,6 +51,12 @@ def add_user(user: User):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
     if db.query(models.User).filter(models.User.email == user.email).first():
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already taken")
+
+    # test
+    format = "%d-%m-%Y"
+    if not datetime.strptime(user.birth_date, format):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Bad request")
+
 
 
     new_item = models.User(
